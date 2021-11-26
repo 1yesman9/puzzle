@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--
+	In the lowest bits and to the lowest ends,
+	The truth is laid out in eights where just seven is needed.
+	Found in noise in this site's sinusoidal wave.
+-->
+<html>
+<head>
+	<link rel="stylesheet" href="index.css">
+	<script>
+		const message = [
+			"The mans real self is obscured by his image.",
+			"Is it not enough that were hidden in the first world?",
+			"Having seen the world in high resolution, pixel by pixel, Ive learned the real truth.",
+			"If you focus on each pixel, the truth is neither black nor white.",
+			"Depending on the view, as well as whats least and most significant to you, your perspective can shift.",
+			"Since learning of this, Ive been blue.",
+			"Don’t follow my lead, just match the resolution."
+		]
+
+		const nums = [
+			1, 3, 9, 10, 16, 17, 18, 19, 28, 29, 30, 60, 69, 73, 79, 80, 81
+		]
+
+		function render_loop(i) {
+			if (i >= nums.length) { i = 0 }
+			main_message.textContent = nums[i]
+			
+			setTimeout(function() {
+				render_loop(i+1)
+			}, 200)
+		}
+		    
+		      
+		function render_message(interval, i) {
+			let msg = message[i]
+			if (i >= message.length) { setTimeout(function() {render_loop(0) }, 11000); return }
+
+			main_message.textContent = ""
+
+			for (let i = 0; i < msg.length; i++) {
+				setTimeout(function() {
+					main_message.textContent = main_message.textContent + msg.charAt(i)
+				}, i * interval)
+			}
+
+			setTimeout(function() {
+				render_message(interval, i + 1)
+			}, msg.length * interval + 3300)
+		}
+
+		function play_button_click() {
+			let audio = document.getElementById("prelude_audio")
+			let main_message = document.getElementById("main_message")
+			let play_button = document.getElementById("play_button")
+			
+			play_button.style.visibility = "hidden"
+			main_message.style.visibility = "visible"
+			audio.play()
+			setTimeout(()=>render_message(100, 0), 2000)
+		}
+	</script>
+</head>
+<body>
+	<audio loop id="prelude_audio">
+		<source src="audio/prelude.wav" type="audio/mpeg">
+	</audio>
+
+	<div id = "main_message"></div>
+
+	<input 
+		type="image" 
+		src="images/play_button.png" 
+		id="play_button"
+		onclick="play_button_click()"
+	/>
+</body>
+</html>
